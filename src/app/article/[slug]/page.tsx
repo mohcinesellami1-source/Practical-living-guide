@@ -1,15 +1,17 @@
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
-import { getArticleBySlug, getPublishedArticles } from '../../../data/articles';
+import { getArticleBySlug } from '../../../lib/articles';
+
+export const dynamic = 'force-dynamic';
 
 interface ArticlePageProps {
   params: { slug: string };
 }
 
-export default function ArticlePage({ params }: ArticlePageProps) {
-  const article = getArticleBySlug(params.slug);
+export default async function ArticlePage({ params }: ArticlePageProps) {
+  const article = await getArticleBySlug(params.slug);
 
-  if (!article || article.status !== 'published') {
+  if (!article) {
     notFound();
   }
 
@@ -53,8 +55,4 @@ export default function ArticlePage({ params }: ArticlePageProps) {
       </article>
     </main>
   );
-}
-
-export async function generateStaticParams() {
-  return getPublishedArticles().map((a) => ({ slug: a.slug }));
 }

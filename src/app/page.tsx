@@ -1,9 +1,11 @@
 import Link from 'next/link';
-import { getPublishedArticles, getFeaturedArticles } from '../data/articles';
+import { getPublishedArticles, getFeaturedArticles } from '../lib/articles';
 
-export default function HomePage() {
-  const featured = getFeaturedArticles();
-  const all = getPublishedArticles();
+export const dynamic = 'force-dynamic';
+
+export default async function HomePage() {
+  const featured = await getFeaturedArticles();
+  const all = await getPublishedArticles();
 
   return (
     <main className="min-h-screen">
@@ -49,7 +51,7 @@ export default function HomePage() {
             <h3 className="text-lg font-semibold text-gray-500 dark:text-gray-400 mb-4">Featured</h3>
             <div className="grid gap-6 md:grid-cols-2">
               {featured.map((article) => (
-                <article key={article.slug} className="group bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 overflow-hidden hover:shadow-lg transition-shadow">
+                <article key={article.id} className="group bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 overflow-hidden hover:shadow-lg transition-shadow">
                   <div className="p-6">
                     <span className="text-xs font-medium text-primary uppercase tracking-wider">{article.category}</span>
                     <h3 className="mt-2 text-xl font-bold group-hover:text-primary transition-colors">
@@ -70,7 +72,7 @@ export default function HomePage() {
 
         <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
           {all.map((article) => (
-            <article key={article.slug} className="group bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 overflow-hidden hover:shadow-lg transition-shadow">
+            <article key={article.id} className="group bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 overflow-hidden hover:shadow-lg transition-shadow">
               <div className="p-6">
                 <span className="text-xs font-medium text-primary uppercase tracking-wider">{article.category}</span>
                 <h3 className="mt-2 text-lg font-bold group-hover:text-primary transition-colors">
@@ -89,7 +91,7 @@ export default function HomePage() {
 
         {all.length === 0 && (
           <div className="text-center py-12 text-gray-500">
-            No articles published yet. <Link href="/admin/login" className="text-primary hover:underline">Create one in Admin</Link>
+            No articles published yet.
           </div>
         )}
       </section>

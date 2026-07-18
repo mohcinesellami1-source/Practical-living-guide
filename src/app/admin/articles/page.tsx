@@ -1,72 +1,34 @@
-'use client';
-
 import Link from 'next/link';
-import { articles as seedArticles, Article } from '../../../data/articles';
-import { useState } from 'react';
+import { getAllArticles } from '../../../lib/articles';
+import { logoutAction, setStatusAction, deleteArticleAction } from '../actions';
 
-function formatDate(iso: string): string {
-  return new Date(iso).toLocaleDateString('en-US', {
-    month: 'short',
-    day: 'numeric',
-    year: 'numeric',
-  });
-}
+export const dynamic = 'force-dynamic';
 
-export default function AdminArticlesPage() {
-  const [allArticles, setAllArticles] = useState<Article[]>(() =>
-    seedArticles.map((a) => ({ ...a }))
-  );
-  const published = allArticles.filter((a) => a.status === 'published');
+const STATUS_LABEL: Record<string, string> = {
+  draft: 'Draft',
+  published: 'Published',
+  rejected: 'Rejected',
+};
 
-  const [editingSlug, setEditingSlug] = useState<string | null>(null);
-  const [editForm, setEditForm] = useState<Partial<Article>>({});
-
-  const startEdit = (article: Article) => {
-    setEditingSlug(article.slug);
-    setEditForm({ ...article });
-  };
-
-  const saveEdit = (slug: string) => {
-    setAllArticles((prev) =>
-      prev.map((a) =>
-        a.slug === slug
-          ? { ...a, ...editForm, updatedAt: new Date().toISOString() }
-          : a
-      )
-    );
-    setEditingSlug(null);
-    setEditForm({});
-  };
-
-  const cancelEdit = () => {
-    setEditingSlug(null);
-    setEditForm({});
-  };
-
-  const deleteArticle = (slug: string) => {
-    if (confirm('Are you sure you want to delete this article?')) {
-      setAllArticles((prev) => prev.filter((a) => a.slug !== slug));
-    }
-  };
-
-  const publishDraft = (slug: string) => {
-    setAllArticles((prev) =>
-      prev.map((a) =>
-        a.slug === slug
-          ? { ...a, status: 'published', updatedAt: new Date().toISOString() }
-          : a
-      )
-    );
-  };
+export default async function AdminArticlesPage() {
+  const articles = await getAllArticles();
+  const publishedCount = articles.filter((a) => a.status === 'published').length;
+  const draftCount = articles.filter((a) => a.status === 'draft').length;
+  const rejectedCount = articles.filter((a) => a.status === 'rejected').length;
 
   return (
     <main className="min-h-screen bg-gray-50">
       <header className="bg-white border-b border-gray-200 px-6 py-4">
         <div className="flex items-center justify-between max-w-6xl mx-auto">
           <h1 className="text-2xl font-bold text-gray-900">Admin Dashboard</h1>
-          <Link href="/" className="text-sm text-gray-600 hover:text-primary transition-colors">
-            ← Back to Site
-          </Link>
+          <div className="flex items-center gap-4">
+            <Link href="/" className="text-sm text-gray-600 hover:text-primary transition-colors">
+              ← Back to Site
+            </Link>
+            <form action={logoutAction}>
+              <button className="text-sm text-gray-600 hover:text-primary" type="submit">Logout</button>
+            </form>
+          </div>
         </div>
       </header>
 
@@ -74,7 +36,9 @@ export default function AdminArticlesPage() {
         <div className="flex items-center justify-between mb-6">
           <div>
             <h2 className="text-xl font-semibold text-gray-900">All Articles</h2>
-            <p className="text-sm text-gray-600">Published: {published.length} / Drafts: {allArticles.filter(a => a.status === 'draft').length}</p>
+            <p className="text-sm text-gray-600">
+              Published: {publishedCount} · Drafts: {draftCount} · Rejected: {rejectedCount}
+            </p>
           </div>
           <Link
             href="/admin/new"
@@ -96,96 +60,84 @@ export default function AdminArticlesPage() {
               </tr>
             </thead>
             <tbody className="divide-y divide-gray-200">
-              {allArticles.map((article) => (
-                <tr key={article.slug} className={editingSlug === article.slug ? 'bg-blue-50' : ''}>
+              {articles.map((article) => (
+                <tr key={article.id}>
                   <td className="px-6 py-4">
-                    {editingSlug === article.slug ? (
-                      <input
-                        type="text"
-                        className="w-full border border-gray-300 rounded px-2 py-1 text-sm"
-                        value={editForm.title || ''}
-                        onChange={(e) => setEditForm({ ...editForm, title: e.target.value })}
-                      />
-                    ) : (
-                      <span className="text-sm font-medium text-gray-900">{article.title}</span>
-                    )}
+                    <span className="text-sm font-medium text-gray-900">{article.title}</span>
                   </td>
                   <td className="px-6 py-4">
-                    {editingSlug === article.slug ? (
-                      <select
-                        className="border border-gray-300 rounded px-2 py-1 text-sm"
-                        value={editForm.category || ''}
-                        onChange={(e) => setEditForm({ ...editForm, category: e.target.value })}
-                      >
-                        <option>Dogs</option>
-                        <option>Cats</option>
-                        <option>Small Pets</option>
-                      </select>
-                    ) : (
-                      <span className="text-sm text-gray-600">{article.category}</span>
-                    )}
+                    <span className="text-sm text-gray-600">{article.category}</span>
                   </td>
                   <td className="px-6 py-4">
                     <span
                       className={`inline-flex px-2 py-1 text-xs font-semibold rounded-full ${
                         article.status === 'published'
                           ? 'bg-green-100 text-green-800'
+                          : article.status === 'rejected'
+                          ? 'bg-red-100 text-red-800'
                           : 'bg-yellow-100 text-yellow-800'
                       }`}
                     >
-                      {article.status}
+                      {STATUS_LABEL[article.status]}
                     </span>
+                    {article.status === 'rejected' && article.rejectionReason && (
+                      <p className="mt-1 text-xs text-red-600">{article.rejectionReason}</p>
+                    )}
                   </td>
                   <td className="px-6 py-4 text-sm text-gray-600">
-                    {formatDate(article.updatedAt)}
+                    {article.updatedAt
+                      ? new Date(article.updatedAt).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })
+                      : '—'}
                   </td>
                   <td className="px-6 py-4 text-right">
-                    {editingSlug === article.slug ? (
-                      <div className="flex items-center gap-2 justify-end">
-                        <button
-                          onClick={cancelEdit}
-                          className="text-sm text-gray-600 hover:text-gray-900"
-                        >
-                          Cancel
-                        </button>
-                        <button
-                          onClick={() => saveEdit(article.slug)}
-                          className="text-sm text-primary hover:underline font-medium"
-                        >
-                          Save
-                        </button>
-                      </div>
-                    ) : (
-                      <div className="flex items-center gap-3 justify-end">
-                        <Link
-                          href={`/article/${article.slug}`}
-                          className="text-sm text-gray-600 hover:text-primary"
-                          target="_blank"
-                        >
-                          View
-                        </Link>
-                        <button
-                          onClick={() => startEdit(article)}
-                          className="text-sm text-primary hover:underline font-medium"
-                        >
-                          Edit
-                        </button>
-                        {article.status === 'draft' && (
-                          <button
-                            onClick={() => publishDraft(article.slug)}
-                            className="text-sm text-green-600 hover:underline font-medium"
-                          >
-                            Publish
-                          </button>
-                        )}
-                        <button
-                          onClick={() => deleteArticle(article.slug)}
-                          className="text-sm text-red-600 hover:underline font-medium"
-                        >
-                          Delete
-                        </button>
-                      </div>
-                    )}
+                    <div className="flex items-center gap-3 justify-end">
+                      <Link
+                        href={`/article/${article.slug}`}
+                        className="text-sm text-gray-600 hover:text-primary"
+                        target="_blank"
+                      >
+                        View
+                      </Link>
+                      <Link
+                        href={`/admin/articles/${article.id}`}
+                        className="text-sm text-primary hover:underline font-medium"
+                      >
+                        Edit
+                      </Link>
+
+                      {article.status !== 'published' && (
+                        <form action={setStatusAction}>
+                          <input type="hidden" name="id" value={article.id} />
+                          <input type="hidden" name="status" value="published" />
+                          <button className="text-sm text-green-600 hover:underline font-medium" type="submit">Publish</button>
+                        </form>
+                      )}
+
+                      {article.status === 'published' && (
+                        <form action={setStatusAction}>
+                          <input type="hidden" name="id" value={article.id} />
+                          <input type="hidden" name="status" value="draft" />
+                          <button className="text-sm text-gray-600 hover:underline font-medium" type="submit">Unpublish</button>
+                        </form>
+                      )}
+
+                      <form action={setStatusAction} className="flex items-center gap-1">
+                        <input type="hidden" name="id" value={article.id} />
+                        <input type="hidden" name="status" value="rejected" />
+                        <input
+                          type="text"
+                          name="reason"
+                          placeholder="Reason"
+                          className="w-24 text-xs border border-gray-300 rounded px-1 py-1"
+                        />
+                        <button className="text-sm text-red-600 hover:underline font-medium" type="submit">Reject</button>
+                      </form>
+
+                      <form action={deleteArticleAction}>
+                        <input type="hidden" name="id" value={article.id} />
+                        <button className="text-sm text-red-600 hover:underline font-medium" type="submit">Delete</button>
+                      </form>
+                    </div>
                   </td>
                 </tr>
               ))}

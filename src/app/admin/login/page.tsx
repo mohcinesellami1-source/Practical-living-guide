@@ -1,33 +1,13 @@
-'use client';
+import { loginAction } from '../actions';
 
-import Link from 'next/link';
-import { useRouter } from 'next/navigation';
-import { useState } from 'react';
+export const dynamic = 'force-dynamic';
 
-export default function AdminLoginPage() {
-  const router = useRouter();
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
-  const [error, setError] = useState<string | null>(null);
-  const [loading, setLoading] = useState(false);
-
-  const VALID_USERNAME = process.env.ADMIN_USERNAME || 'admin';
-  const VALID_PASSWORD = process.env.ADMIN_PASSWORD || 'password123';
-
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    setError(null);
-    setLoading(true);
-
-    if (username === VALID_USERNAME && password === VALID_PASSWORD) {
-      // In a real app, we'd set a secure HTTP-only cookie or session
-      // For demo, we'll just redirect and rely on a simple check
-      router.push('/admin/articles');
-    } else {
-      setError('Invalid credentials');
-    }
-    setLoading(false);
-  };
+export default function AdminLoginPage({
+  searchParams,
+}: {
+  searchParams: { error?: string };
+}) {
+  const hasError = searchParams?.error === '1';
 
   return (
     <main className="min-h-screen flex items-center justify-center bg-gray-50">
@@ -35,22 +15,22 @@ export default function AdminLoginPage() {
         <div className="text-center">
           <h2 className="text-2xl font-bold text-primary">Admin Login</h2>
           <p className="text-gray-600 dark:text-gray-300">
-            Please log in to access the admin dashboard
+            Connectez-vous avec votre compte Supabase.
           </p>
         </div>
 
-        <form onSubmit={handleSubmit} className="space-y-6">
+        <form action={loginAction} className="space-y-6">
           <div>
-            <label htmlFor="username" className="block mb-2 text-sm font-medium text-gray-700 dark:text-gray-300">
-              Username
+            <label htmlFor="email" className="block mb-2 text-sm font-medium text-gray-700 dark:text-gray-300">
+              Email
             </label>
             <input
-              id="username"
-              type="text"
+              id="email"
+              name="email"
+              type="email"
               required
+              autoComplete="email"
               className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
-              value={username}
-              onChange={(e) => setUsername(e.target.value)}
             />
           </div>
 
@@ -60,31 +40,26 @@ export default function AdminLoginPage() {
             </label>
             <input
               id="password"
+              name="password"
               type="password"
               required
+              autoComplete="current-password"
               className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
             />
           </div>
 
-          {error && (
-            <p className="text-sm text-red-600 dark:text-red-400">
-              {error}
+          {hasError && (
+            <p className="text-sm text-red-600 dark:text-red-400 text-center">
+              Identifiants incorrects. Vérifiez email/mot de passe ou créez le compte dans Supabase.
             </p>
           )}
 
           <button
             type="submit"
-            disabled={loading}
-            className="w-full flex justify-center px-6 py-3 text-sm font-medium bg-primary text-primary-foreground rounded-lg hover:bg-primary/90 transition-colors disabled:opacity-50"
+            className="w-full flex justify-center px-6 py-3 text-sm font-medium bg-primary text-primary-foreground rounded-lg hover:bg-primary/90 transition-colors"
           >
-            {loading ? 'Logging in...' : 'Log In'}
+            Log In
           </button>
-
-          <p className="text-xs text-gray-500 dark:text-gray-400 text-center">
-            Demo credentials: username: admin, password: password123
-          </p>
         </form>
       </div>
     </main>
