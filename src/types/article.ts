@@ -13,6 +13,7 @@ export interface Article {
   seoDescription: string;
   featured: boolean;
   rejectionReason: string | null;
+  coverImageUrl: string;
   createdAt: string;
   updatedAt: string;
 }
@@ -29,4 +30,5 @@ export interface ArticleInput {
   featured?: boolean;
   status?: ArticleStatus;
   rejectionReason?: string | null;
+  coverImageUrl?: string;
 }

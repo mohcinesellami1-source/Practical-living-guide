@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import Image from 'next/image';
 import { type Article } from '../types/article';
 import { readingTimeMinutes } from '../lib/article-utils';
 import { Clock, Leaf } from 'lucide-react';
@@ -20,8 +21,20 @@ export function ArticleCard({ article, variant = 'standard' }: Props) {
   if (variant === 'featured') {
     return (
       <article className="group relative overflow-hidden rounded-2xl border border-gray-200 bg-white shadow-sm transition-shadow hover:shadow-md">
-        <div className="flex h-40 items-center justify-center bg-gradient-to-br from-sage-light to-cream-dark">
-          <Leaf className="h-12 w-12 text-sage" aria-hidden="true" />
+        <div className="relative h-44 overflow-hidden bg-gradient-to-br from-sage-light to-cream-dark">
+          {article.coverImageUrl ? (
+            <Image
+              src={article.coverImageUrl}
+              alt={article.title}
+              fill
+              sizes="(min-width: 768px) 50vw, 100vw"
+              className="object-cover transition-transform duration-300 group-hover:scale-105"
+            />
+          ) : (
+            <div className="flex h-full items-center justify-center">
+              <Leaf className="h-12 w-12 text-sage" aria-hidden="true" />
+            </div>
+          )}
         </div>
         <div className="p-6">
           <span className="text-xs font-medium uppercase tracking-wider text-forest">{article.category}</span>
@@ -45,8 +58,20 @@ export function ArticleCard({ article, variant = 'standard' }: Props) {
 
   return (
     <article className="group flex flex-col overflow-hidden rounded-xl border border-gray-200 bg-white shadow-sm transition-shadow hover:shadow-md">
-      <div className="flex h-32 items-center justify-center bg-gradient-to-br from-sage-light to-cream-dark">
-        <Leaf className="h-9 w-9 text-sage" aria-hidden="true" />
+      <div className="relative h-36 overflow-hidden bg-gradient-to-br from-sage-light to-cream-dark">
+        {article.coverImageUrl ? (
+          <Image
+            src={article.coverImageUrl}
+            alt={article.title}
+            fill
+            sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
+            className="object-cover transition-transform duration-300 group-hover:scale-105"
+          />
+        ) : (
+          <div className="flex h-full items-center justify-center">
+            <Leaf className="h-9 w-9 text-sage" aria-hidden="true" />
+          </div>
+        )}
       </div>
       <div className="flex flex-1 flex-col p-5">
         <span className="text-xs font-medium uppercase tracking-wider text-forest">{article.category}</span>

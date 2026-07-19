@@ -36,5 +36,6 @@ export function parseArticleForm(formData: FormData): ArticleInput {
     seoDescription: String(formData.get('seoDescription') ?? '') || undefined,
     featured: formData.get('featured') === 'on',
     status: statusRaw,
+    coverImageUrl: String(formData.get('coverImageUrl') ?? '') || undefined,
   };
 }

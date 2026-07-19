@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import type { Metadata } from 'next';
+import Image from 'next/image';
 import { notFound } from 'next/navigation';
 import { getArticleBySlug, getPublishedArticles } from '../../../lib/articles';
 import { extractHeadings, readingTimeMinutes } from '../../../lib/article-utils';
@@ -33,11 +34,13 @@ export async function generateMetadata({ params }: ArticlePageProps): Promise<Me
       description: article.excerpt || SITE_DESCRIPTION,
       siteName: SITE_NAME,
       publishedTime: article.createdAt || undefined,
+      images: article.coverImageUrl ? [article.coverImageUrl] : undefined,
     },
     twitter: {
       card: 'summary_large_image',
       title: article.title,
       description: article.excerpt || SITE_DESCRIPTION,
+      images: article.coverImageUrl ? [article.coverImageUrl] : undefined,
     },
   };
 }
@@ -73,6 +76,7 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
             dateModified: article.updatedAt,
             author: { '@type': 'Organization', name: article.author },
             publisher: { '@type': 'Organization', name: SITE_NAME },
+            image: article.coverImageUrl || undefined,
             mainEntityOfPage: `${SITE_URL}/article/${article.slug}`,
           }),
         }}
@@ -109,6 +113,19 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
               </span>
             </div>
           </header>
+
+          {article.coverImageUrl && (
+            <div className="relative mt-8 aspect-[16/9] overflow-hidden rounded-xl">
+              <Image
+                src={article.coverImageUrl}
+                alt={article.title}
+                fill
+                priority
+                sizes="(min-width: 768px) 42rem, 100vw"
+                className="object-cover"
+              />
+            </div>
+          )}
 
           {headings.length > 0 && (
             <nav aria-label="Table of contents" className="mt-8 rounded-xl border border-sage bg-sage-light/40 p-5">

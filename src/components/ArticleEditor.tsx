@@ -62,6 +62,20 @@ export function ArticleEditor({ mode, action, article, hasError }: Props) {
                 <label htmlFor="excerpt" className={LABEL}>Excerpt</label>
                 <input id="excerpt" name="excerpt" defaultValue={article?.excerpt} className={FIELD} />
               </div>
+              <div className="sm:col-span-2">
+                <label htmlFor="coverImageUrl" className={LABEL}>Cover image URL</label>
+                <input
+                  id="coverImageUrl"
+                  name="coverImageUrl"
+                  type="url"
+                  placeholder="https://images.unsplash.com/photo-…"
+                  defaultValue={article?.coverImageUrl}
+                  className={FIELD}
+                />
+                <p className="mt-1 text-xs text-gray-500">
+                  Direct link to a cover photo (Unsplash / Pexels). Shown on cards and the article page.
+                </p>
+              </div>
             </div>
             <label className="flex items-center gap-2 text-sm text-charcoal">
               <input type="checkbox" name="featured" defaultChecked={article?.featured} className="h-4 w-4 rounded border-gray-300" />

@@ -26,6 +26,7 @@ export function mapRowToArticle(row: Record<string, unknown>): Article {
     seoDescription: String(row.seo_description ?? ''),
     featured: Boolean(row.featured),
     rejectionReason: row.rejection_reason ? String(row.rejection_reason) : null,
+    coverImageUrl: String(row.cover_image_url ?? ''),
     createdAt: String(row.created_at ?? ''),
     updatedAt: String(row.updated_at ?? ''),
   };

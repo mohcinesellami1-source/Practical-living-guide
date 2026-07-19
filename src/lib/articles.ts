@@ -81,6 +81,7 @@ export async function createArticle(input: ArticleInput): Promise<Article> {
       seo_title: input.seoTitle ?? '',
       seo_description: input.seoDescription ?? '',
       featured: input.featured ?? false,
+      cover_image_url: input.coverImageUrl ?? null,
       rejection_reason: null,
     })
     .select()
@@ -107,6 +108,7 @@ export async function updateArticle(id: string, input: ArticleInput): Promise<vo
       seo_title: input.seoTitle ?? '',
       seo_description: input.seoDescription ?? '',
       featured: input.featured ?? false,
+      cover_image_url: input.coverImageUrl ?? null,
       updated_at: new Date().toISOString(),
     })
     .eq('id', id);
