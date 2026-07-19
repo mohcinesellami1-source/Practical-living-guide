@@ -43,3 +43,11 @@
 ## Next planned step
 - Confirm `/admin/articles` shows the 8 drafts with a real `sb_secret_…` service-role key (RLS bypass). Then review/refine the drafts and only publish deliberately — never auto-publish.
 - (Optional) Commit and push the cover-image feature + seed drafts to GitHub once verified.
+
+## Next Session Priorities
+1. Audit every button and interactive element site-wide (header nav, footer links, homepage CTAs like "Explore guides" and "Our editorial standards", article page buttons, admin panel buttons) and list which ones are broken, dead links, or do nothing.
+2. Fix all broken buttons found.
+3. Fill in real, complete content for static pages: About, Privacy Policy, Editorial Policy, Affiliate Disclosure, Contact — currently these are placeholder or incomplete.
+4. Update homepage hero description to reflect all 6 categories, not just pets (still pending from last session).
+5. Review and publish remaining 7 draft articles.
+6. Only after all this: deploy to Vercel.
