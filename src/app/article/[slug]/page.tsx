@@ -1,6 +1,14 @@
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
-import { getArticleBySlug } from '../../../lib/articles';
+import { getArticleBySlug, getPublishedArticles } from '../../../lib/articles';
+import { extractHeadings, readingTimeMinutes } from '../../../lib/article-utils';
+import { SiteHeader } from '../../../components/SiteHeader';
+import { SiteFooter } from '../../../components/SiteFooter';
+import { ArticleCard } from '../../../components/ArticleCard';
+import { MarkdownContent } from '../../../components/MarkdownContent';
+import { AffiliateDisclosure } from '../../../components/AffiliateDisclosure';
+import { NewsletterSignup } from '../../../components/NewsletterSignup';
+import { Clock, User } from 'lucide-react';
 
 export const dynamic = 'force-dynamic';
 
@@ -8,51 +16,99 @@ interface ArticlePageProps {
   params: { slug: string };
 }
 
+function formatDate(iso: string): string {
+  if (!iso) return '';
+  return new Date(iso).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' });
+}
+
 export default async function ArticlePage({ params }: ArticlePageProps) {
   const article = await getArticleBySlug(params.slug);
+  if (!article) notFound();
 
-  if (!article) {
-    notFound();
-  }
+  const headings = extractHeadings(article.content);
+  const reading = readingTimeMinutes(article.content);
+
+  const related = (await getPublishedArticles())
+    .filter((a) => a.slug !== article.slug)
+    .sort((a, b) => (a.category === article.category ? -1 : 0) - (b.category === article.category ? -1 : 0))
+    .slice(0, 3);
 
   return (
-    <main className="min-h-screen">
-      <header className="border-b border-gray-200 dark:border-gray-700 sticky top-0 bg-white/90 dark:bg-gray-900/90 backdrop-blur-sm z-10">
-        <nav className="max-w-6xl mx-auto px-4 py-4 flex items-center justify-between" aria-label="Main navigation">
-          <Link href="/" className="text-xl font-bold text-primary" aria-label="EcoPet Home">
-            EcoPet
+    <>
+      <SiteHeader />
+
+      <main className="bg-cream">
+        <article className="mx-auto max-w-3xl px-4 py-12 sm:px-6 lg:px-8">
+          <Link
+            href="/#latest"
+            className="inline-flex items-center gap-1 text-sm font-medium text-forest hover:underline"
+          >
+            ← Back to guides
           </Link>
-          <ul className="flex items-center gap-6 text-sm font-medium">
-            <li><Link href="/" className="hover:text-primary transition-colors">Home</Link></li>
-            <li><Link href="/about" className="hover:text-primary transition-colors">About</Link></li>
-            <li><Link href="/admin/login" className="hover:text-primary transition-colors">Admin</Link></li>
-          </ul>
-        </nav>
-      </header>
 
-      <article className="max-w-4xl mx-auto px-4 py-16">
-        <nav className="mb-6">
-          <Link href="/" className="text-primary hover:underline text-sm">← Back to articles</Link>
-        </nav>
+          <header className="mt-6 border-b border-gray-200 pb-8">
+            {article.category && (
+              <span className="text-xs font-medium uppercase tracking-wider text-forest">{article.category}</span>
+            )}
+            <h1 className="mt-2 text-4xl font-serif leading-tight text-charcoal sm:text-5xl">{article.title}</h1>
+            {article.excerpt && <p className="mt-4 text-lg text-gray-600">{article.excerpt}</p>}
+            <div className="mt-6 flex flex-wrap items-center gap-4 text-sm text-gray-500">
+              {article.author && (
+                <span className="inline-flex items-center gap-1.5">
+                  <User className="h-4 w-4" aria-hidden="true" /> {article.author}
+                </span>
+              )}
+              {article.createdAt && (
+                <time dateTime={article.createdAt}>{formatDate(article.createdAt)}</time>
+              )}
+              <span aria-hidden="true">•</span>
+              <span className="inline-flex items-center gap-1.5">
+                <Clock className="h-4 w-4" aria-hidden="true" /> {reading} min read
+              </span>
+            </div>
+          </header>
 
-        <header className="mb-8">
-          <span className="text-xs font-medium text-primary uppercase tracking-wider">{article.category}</span>
-          <h1 className="mt-2 text-4xl sm:text-5xl font-bold tracking-tight text-gray-900 dark:text-gray-100">
-            {article.title}
-          </h1>
-          <div className="mt-4 flex items-center gap-4 text-sm text-gray-500">
-            <time dateTime={article.createdAt}>{new Date(article.createdAt).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })}</time>
-            <span>•</span>
-            <span>{article.author}</span>
+          {headings.length > 0 && (
+            <nav aria-label="Table of contents" className="mt-8 rounded-xl border border-sage bg-sage-light/40 p-5">
+              <p className="mb-3 text-sm font-semibold uppercase tracking-wider text-forest">On this page</p>
+              <ul className="space-y-2 text-sm">
+                {headings.map((h) => (
+                  <li key={h.id} className={h.level === 3 ? 'pl-4' : undefined}>
+                    <a href={`#${h.id}`} className="text-forest hover:underline">
+                      {h.text}
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            </nav>
+          )}
+
+          <div className="mt-10">
+            <MarkdownContent content={article.content} />
           </div>
-        </header>
 
-        <article className="prose prose-lg max-w-none dark:prose-invert" dangerouslySetInnerHTML={{ __html: article.content }} />
+          <div className="mt-12">
+            <AffiliateDisclosure />
+          </div>
+        </article>
 
-        <footer className="mt-16 pt-8 border-t border-gray-200 dark:border-gray-700 text-center text-sm text-gray-500">
-          © {new Date().getFullYear()} EcoPet. All rights reserved.
-        </footer>
-      </article>
-    </main>
+        {related.length > 0 && (
+          <section className="mx-auto max-w-6xl px-4 pb-16 sm:px-6 lg:px-8">
+            <h2 className="mb-6 text-2xl font-serif text-forest">Related guides</h2>
+            <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+              {related.map((a) => (
+                <ArticleCard key={a.id} article={a} />
+              ))}
+            </div>
+          </section>
+        )}
+
+        <section className="mx-auto max-w-6xl px-4 pb-16 sm:px-6 lg:px-8">
+          <NewsletterSignup />
+        </section>
+      </main>
+
+      <SiteFooter />
+    </>
   );
 }

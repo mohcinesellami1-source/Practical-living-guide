@@ -34,3 +34,21 @@ export function mapRowToArticle(row: Record<string, unknown>): Article {
 export function filterPublished(articles: Article[]): Article[] {
   return articles.filter((a) => a.status === 'published');
 }
+
+export function readingTimeMinutes(content: string): number {
+  const words = content.trim().split(/\s+/).filter(Boolean).length;
+  return Math.max(1, Math.round(words / 200));
+}
+
+export function extractHeadings(content: string): { level: number; text: string; id: string }[] {
+  return content
+    .split('\n')
+    .map((line) => line.trim())
+    .map((line) => /^(#{2,3})\s+(.*)$/.exec(line))
+    .filter((m): m is RegExpExecArray => Boolean(m))
+    .map((m) => {
+      const level = m[1].length;
+      const text = m[2].trim();
+      return { level, text, id: toSlug(text) };
+    });
+}
