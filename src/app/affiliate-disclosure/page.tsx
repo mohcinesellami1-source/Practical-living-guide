@@ -21,14 +21,31 @@ export default function AffiliateDisclosurePage() {
           </p>
 
           <div className="prose prose-lg mt-8 max-w-none">
+            <h2>What affiliate links are</h2>
             <p>
-              Practical Living Guide is a reader-supported publication. Some links on our site are affiliate links, which means
-              we may earn a commission if you purchase a product after clicking through — at no additional cost to
-              you.
+              Some links on our site are affiliate links. If you click one and later buy a product, we may earn a
+              commission — at no extra cost to you. The price you pay is the same whether or not you use our link.
             </p>
+
+            <h2>How commissions work</h2>
             <p>
-              Commissions help us buy and test more products independently. They do not influence our reviews,
-              ratings, or the products we choose to recommend. Our editorial standards come first, always.
+              Commissions help us buy and test more products independently. They are paid by retailers and brands
+              through affiliate networks; we never charge readers, and we never accept payment to feature or rank a
+              product.
+            </p>
+
+            <h2>They don’t influence our recommendations</h2>
+            <p>
+              Our reviews, ratings, and recommendations are decided by our editorial team based on hands-on testing
+              and research. Affiliate relationships do not affect what we choose to cover or how we score it. If a
+              product isn’t worth buying, we’ll say so — even if it pays a commission.
+            </p>
+
+            <h2>How to spot an affiliate link</h2>
+            <p>
+              Affiliate links may include tracking parameters and are disclosed on every article through the notice
+              shown below. This page and that notice are provided in line with guidance that endorsements be clear
+              and conspicuous.
             </p>
           </div>
 
