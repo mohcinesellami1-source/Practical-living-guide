@@ -37,14 +37,15 @@ export default async function HomePage({
         <div className="mx-auto max-w-6xl px-4 py-20 sm:px-6 lg:px-8 lg:py-28">
           <div className="max-w-3xl">
             <p className="mb-4 inline-flex items-center gap-2 rounded-full bg-white px-3 py-1 text-sm font-medium text-forest shadow-sm">
-              <Leaf className="h-4 w-4" aria-hidden="true" /> Eco-friendly pet guides
+              <Leaf className="h-4 w-4" aria-hidden="true" /> Eco-friendly living guides
             </p>
             <h1 className="text-4xl font-serif leading-tight text-forest sm:text-5xl lg:text-6xl">
-              Smarter, greener choices for the pets you love.
+              Smarter, greener choices for everyday life.
             </h1>
             <p className="mt-6 max-w-xl text-lg text-gray-700">
-              Independent, hands-on reviews of sustainable pet products — from compostable waste bags to
-              plant-based litter. No greenwashing, just honest testing.
+              Independent, hands-on guides to a more sustainable home — covering pet care, cleaning,
+              organization, gardening, simple DIY repairs, and the products worth buying. No greenwashing,
+              just honest testing.
             </p>
             <div className="mt-8 flex flex-wrap gap-4">
               <Link
