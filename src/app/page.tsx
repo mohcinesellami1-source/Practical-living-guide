@@ -6,8 +6,15 @@ import { ArticleCard } from '../components/ArticleCard';
 import { NewsletterSignup } from '../components/NewsletterSignup';
 import { SectionHeading } from '../components/ui/SectionHeading';
 import { Leaf, ShieldCheck, Sparkles, Recycle } from 'lucide-react';
+import { pageMetadata, SITE_NAME, SITE_DESCRIPTION } from '../lib/site';
 
 export const dynamic = 'force-dynamic';
+
+export const metadata = pageMetadata({
+  title: SITE_NAME,
+  description: SITE_DESCRIPTION,
+  path: '/',
+});
 
 export default async function HomePage({
   searchParams,

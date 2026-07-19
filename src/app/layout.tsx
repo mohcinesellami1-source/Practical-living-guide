@@ -1,9 +1,24 @@
 import type { Metadata } from 'next';
 import './globals.css';
+import { SITE_URL, SITE_NAME, SITE_DESCRIPTION } from '../lib/site';
 
 export const metadata: Metadata = {
-  title: 'Practical Living Guide',
-  description: 'Eco-friendly pet supplies for conscious pets',
+  metadataBase: new URL(SITE_URL),
+  title: SITE_NAME,
+  description: SITE_DESCRIPTION,
+  alternates: { canonical: '/' },
+  openGraph: {
+    type: 'website',
+    url: SITE_URL,
+    siteName: SITE_NAME,
+    title: SITE_NAME,
+    description: SITE_DESCRIPTION,
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: SITE_NAME,
+    description: SITE_DESCRIPTION,
+  },
 };
 
 export default function RootLayout({

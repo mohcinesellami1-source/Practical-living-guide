@@ -1,11 +1,13 @@
 import { SiteHeader } from '../../components/SiteHeader';
 import { SiteFooter } from '../../components/SiteFooter';
 import { ContactForm } from '../../components/ContactForm';
+import { pageMetadata } from '../../lib/site';
 
-export const metadata = {
+export const metadata = pageMetadata({
   title: 'Contact — Practical Living Guide',
   description: 'Get in touch with the Practical Living Guide editorial team.',
-};
+  path: '/contact',
+});
 
 export default function ContactPage() {
   return (

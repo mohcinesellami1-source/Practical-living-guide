@@ -1,10 +1,12 @@
 import { SiteHeader } from '../../components/SiteHeader';
 import { SiteFooter } from '../../components/SiteFooter';
+import { pageMetadata } from '../../lib/site';
 
-export const metadata = {
+export const metadata = pageMetadata({
   title: 'Editorial Policy — Practical Living Guide',
   description: 'How Practical Living Guide tests products and maintains independent, honest reviews.',
-};
+  path: '/editorial-policy',
+});
 
 export default function EditorialPolicyPage() {
   return (

@@ -1,11 +1,13 @@
 import { SiteHeader } from '../../components/SiteHeader';
 import { SiteFooter } from '../../components/SiteFooter';
 import { AffiliateDisclosure } from '../../components/AffiliateDisclosure';
+import { pageMetadata } from '../../lib/site';
 
-export const metadata = {
+export const metadata = pageMetadata({
   title: 'Affiliate Disclosure — Practical Living Guide',
   description: 'How Practical Living Guide uses affiliate links and how they affect our recommendations.',
-};
+  path: '/affiliate-disclosure',
+});
 
 export default function AffiliateDisclosurePage() {
   return (

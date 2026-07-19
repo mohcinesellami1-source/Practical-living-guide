@@ -1,10 +1,12 @@
 import { SiteHeader } from '../../components/SiteHeader';
 import { SiteFooter } from '../../components/SiteFooter';
+import { pageMetadata } from '../../lib/site';
 
-export const metadata = {
+export const metadata = pageMetadata({
   title: 'Privacy Policy — Practical Living Guide',
   description: 'How Practical Living Guide handles your data.',
-};
+  path: '/privacy',
+});
 
 export default function PrivacyPage() {
   return (

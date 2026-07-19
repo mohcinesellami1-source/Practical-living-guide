@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import { getArticleBySlug, getPublishedArticles } from '../../../lib/articles';
 import { extractHeadings, readingTimeMinutes } from '../../../lib/article-utils';
@@ -9,11 +10,36 @@ import { MarkdownContent } from '../../../components/MarkdownContent';
 import { AffiliateDisclosure } from '../../../components/AffiliateDisclosure';
 import { NewsletterSignup } from '../../../components/NewsletterSignup';
 import { Clock, User } from 'lucide-react';
+import { SITE_URL, SITE_NAME, SITE_DESCRIPTION } from '../../../lib/site';
 
 export const dynamic = 'force-dynamic';
 
 interface ArticlePageProps {
   params: { slug: string };
+}
+
+export async function generateMetadata({ params }: ArticlePageProps): Promise<Metadata> {
+  const article = await getArticleBySlug(params.slug);
+  if (!article) return {};
+  const url = `${SITE_URL}/article/${article.slug}`;
+  return {
+    title: article.title,
+    description: article.excerpt || SITE_DESCRIPTION,
+    alternates: { canonical: `/article/${article.slug}` },
+    openGraph: {
+      type: 'article',
+      url,
+      title: article.title,
+      description: article.excerpt || SITE_DESCRIPTION,
+      siteName: SITE_NAME,
+      publishedTime: article.createdAt || undefined,
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title: article.title,
+      description: article.excerpt || SITE_DESCRIPTION,
+    },
+  };
 }
 
 function formatDate(iso: string): string {
@@ -35,6 +61,22 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
 
   return (
     <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            '@context': 'https://schema.org',
+            '@type': 'Article',
+            headline: article.title,
+            description: article.excerpt,
+            datePublished: article.createdAt,
+            dateModified: article.updatedAt,
+            author: { '@type': 'Organization', name: article.author },
+            publisher: { '@type': 'Organization', name: SITE_NAME },
+            mainEntityOfPage: `${SITE_URL}/article/${article.slug}`,
+          }),
+        }}
+      />
       <SiteHeader />
 
       <main className="bg-cream">

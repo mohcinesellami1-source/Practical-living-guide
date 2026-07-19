@@ -3,11 +3,13 @@ import { SiteHeader } from '../../components/SiteHeader';
 import { SiteFooter } from '../../components/SiteFooter';
 import { AffiliateDisclosure } from '../../components/AffiliateDisclosure';
 import { ShieldCheck, Recycle, Sparkles } from 'lucide-react';
+import { pageMetadata } from '../../lib/site';
 
-export const metadata = {
+export const metadata = pageMetadata({
   title: 'About — Practical Living Guide',
   description: 'How Practical Living Guide tests products and keeps its reviews independent and honest.',
-};
+  path: '/about',
+});
 
 const VALUES = [
   {
