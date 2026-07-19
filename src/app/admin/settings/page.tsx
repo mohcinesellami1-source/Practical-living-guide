@@ -15,7 +15,7 @@ export default function AdminSettingsPage() {
         <section className="rounded-xl border border-gray-200 bg-white p-6 shadow-sm">
           <h2 className="text-lg font-serif text-forest">Site configuration</h2>
           <p className="mt-2 text-sm text-gray-600">
-            EcoPet is configured through environment variables set in your hosting provider (Supabase URL,
+            Practical Living Guide is configured through environment variables set in your hosting provider (Supabase URL,
             publishable key, and service-role key). These are read at runtime and are never exposed to the
             browser beyond the public publishable key.
           </p>

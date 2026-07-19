@@ -17,9 +17,9 @@ export function SiteHeader() {
   return (
     <header className="bg-cream/95 backdrop-blur-sm border-b border-gray-200 sticky top-0 z-50">
       <nav className="mx-auto max-w-6xl px-4 py-4 flex items-center justify-between" aria-label="Main navigation">
-        <Link href="/" className="flex items-center gap-2 text-forest font-bold text-xl" aria-label="EcoPet home">
+        <Link href="/" className="flex items-center gap-2 text-forest font-bold text-xl" aria-label="Practical Living Guide home">
           <Leaf className="h-6 w-6 text-sage" aria-hidden="true" />
-          <span className="font-serif">EcoPet</span>
+          <span className="font-serif">Practical Living Guide</span>
         </Link>
 
         <ul className="hidden md:flex items-center gap-8 text-sm font-medium text-charcoal">

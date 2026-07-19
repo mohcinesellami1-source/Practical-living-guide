@@ -16,9 +16,9 @@ export default function AdminLoginPage({
     <main className="flex min-h-screen items-center justify-center bg-gradient-to-b from-sage-light/40 to-cream px-4">
       <div className="w-full max-w-md">
         <div className="mb-8 text-center">
-          <Link href="/" className="inline-flex items-center gap-2 text-forest" aria-label="EcoPet home">
+          <Link href="/" className="inline-flex items-center gap-2 text-forest" aria-label="Practical Living Guide home">
             <Leaf className="h-8 w-8 text-sage" aria-hidden="true" />
-            <span className="font-serif text-2xl font-bold">EcoPet</span>
+            <span className="font-serif text-2xl font-bold">Practical Living Guide</span>
           </Link>
           <p className="mt-2 text-sm text-gray-600">Admin sign in</p>
         </div>

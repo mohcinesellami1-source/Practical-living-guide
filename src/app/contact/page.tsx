@@ -3,8 +3,8 @@ import { SiteFooter } from '../../components/SiteFooter';
 import { ContactForm } from '../../components/ContactForm';
 
 export const metadata = {
-  title: 'Contact — EcoPet',
-  description: 'Get in touch with the EcoPet editorial team.',
+  title: 'Contact — Practical Living Guide',
+  description: 'Get in touch with the Practical Living Guide editorial team.',
 };
 
 export default function ContactPage() {
@@ -24,8 +24,8 @@ export default function ContactPage() {
 
           <p className="mt-6 text-sm text-gray-600">
             Prefer email? Write to us at{' '}
-            <a href="mailto:hello@ecopet.example" className="font-medium text-forest underline">
-              hello@ecopet.example
+            <a href="mailto:hello@practicallivingguide.example" className="font-medium text-forest underline">
+              hello@practicallivingguide.example
             </a>
             .
           </p>

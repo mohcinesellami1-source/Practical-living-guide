@@ -2,8 +2,8 @@ import { SiteHeader } from '../../components/SiteHeader';
 import { SiteFooter } from '../../components/SiteFooter';
 
 export const metadata = {
-  title: 'Editorial Policy — EcoPet',
-  description: 'How EcoPet tests products and maintains independent, honest reviews.',
+  title: 'Editorial Policy — Practical Living Guide',
+  description: 'How Practical Living Guide tests products and maintains independent, honest reviews.',
 };
 
 export default function EditorialPolicyPage() {

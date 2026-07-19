@@ -120,7 +120,7 @@ export default async function HomePage({
       <section className="bg-forest text-cream">
         <div className="mx-auto max-w-6xl px-4 py-16 sm:px-6 lg:px-8">
           <div className="mx-auto mb-8 max-w-2xl text-center">
-            <p className="mb-2 text-sm font-medium uppercase tracking-wider text-sage">Why trust EcoPet</p>
+            <p className="mb-2 text-sm font-medium uppercase tracking-wider text-sage">Why trust Practical Living Guide</p>
             <h2 className="text-3xl font-serif leading-tight text-cream sm:text-4xl">Our editorial standard</h2>
           </div>
           <div className="grid gap-8 sm:grid-cols-3">

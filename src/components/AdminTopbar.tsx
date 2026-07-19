@@ -17,7 +17,7 @@ export function AdminTopbar({ email, onMenuClick }: Props) {
       >
         <Menu className="h-6 w-6" aria-hidden="true" />
       </button>
-      <span className="text-sm font-medium text-forest">EcoPet Admin</span>
+      <span className="text-sm font-medium text-forest">Practical Living Guide Admin</span>
       {email ? <span className="max-w-[40%] truncate text-xs text-gray-500">{email}</span> : <span />}
     </header>
   );

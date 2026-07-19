@@ -3,8 +3,8 @@ import { SiteFooter } from '../../components/SiteFooter';
 import { AffiliateDisclosure } from '../../components/AffiliateDisclosure';
 
 export const metadata = {
-  title: 'Affiliate Disclosure — EcoPet',
-  description: 'How EcoPet uses affiliate links and how they affect our recommendations.',
+  title: 'Affiliate Disclosure — Practical Living Guide',
+  description: 'How Practical Living Guide uses affiliate links and how they affect our recommendations.',
 };
 
 export default function AffiliateDisclosurePage() {
@@ -15,12 +15,12 @@ export default function AffiliateDisclosurePage() {
         <div className="mx-auto max-w-3xl px-4 py-16 sm:px-6 lg:px-8">
           <h1 className="text-4xl font-serif leading-tight text-forest">Affiliate Disclosure</h1>
           <p className="mt-4 text-lg text-gray-600">
-            Transparency about how EcoPet is funded and how that affects our content.
+            Transparency about how Practical Living Guide is funded and how that affects our content.
           </p>
 
           <div className="prose prose-lg mt-8 max-w-none">
             <p>
-              EcoPet is a reader-supported publication. Some links on our site are affiliate links, which means
+              Practical Living Guide is a reader-supported publication. Some links on our site are affiliate links, which means
               we may earn a commission if you purchase a product after clicking through — at no additional cost to
               you.
             </p>

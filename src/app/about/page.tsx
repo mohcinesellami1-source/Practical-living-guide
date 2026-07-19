@@ -5,8 +5,8 @@ import { AffiliateDisclosure } from '../../components/AffiliateDisclosure';
 import { ShieldCheck, Recycle, Sparkles } from 'lucide-react';
 
 export const metadata = {
-  title: 'About — EcoPet',
-  description: 'How EcoPet tests products and keeps its reviews independent and honest.',
+  title: 'About — Practical Living Guide',
+  description: 'How Practical Living Guide tests products and keeps its reviews independent and honest.',
 };
 
 const VALUES = [
@@ -35,7 +35,7 @@ export default function AboutPage() {
       <main className="bg-cream">
         <section className="bg-gradient-to-b from-sage-light/50 to-cream">
           <div className="mx-auto max-w-3xl px-4 py-20 text-center sm:px-6 lg:px-8">
-            <h1 className="text-4xl font-serif leading-tight text-forest sm:text-5xl">About EcoPet</h1>
+            <h1 className="text-4xl font-serif leading-tight text-forest sm:text-5xl">About Practical Living Guide</h1>
             <p className="mt-6 text-lg text-gray-700">
               We are pet owners and environmental advocates helping you make sustainable choices for the animals
               you love — without compromising on quality or safety.

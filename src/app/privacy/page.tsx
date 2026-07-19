@@ -2,8 +2,8 @@ import { SiteHeader } from '../../components/SiteHeader';
 import { SiteFooter } from '../../components/SiteFooter';
 
 export const metadata = {
-  title: 'Privacy Policy — EcoPet',
-  description: 'How EcoPet handles your data.',
+  title: 'Privacy Policy — Practical Living Guide',
+  description: 'How Practical Living Guide handles your data.',
 };
 
 export default function PrivacyPage() {

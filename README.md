@@ -1,4 +1,4 @@
-# EcoPet — Sustainable Pet Supplies
+# Practical Living Guide
 
 A Next.js (App Router) site for eco-friendly pet product guides and reviews.
 

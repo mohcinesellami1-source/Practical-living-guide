@@ -15,9 +15,9 @@ export function SiteFooter() {
       <div className="mx-auto max-w-6xl px-4 py-12 sm:px-6 lg:px-8">
         <div className="grid gap-8 md:grid-cols-2">
           <div>
-            <Link href="/" className="flex items-center gap-2 text-cream font-bold text-lg" aria-label="EcoPet home">
+            <Link href="/" className="flex items-center gap-2 text-cream font-bold text-lg" aria-label="Practical Living Guide home">
               <Leaf className="h-5 w-5 text-sage" aria-hidden="true" />
-              <span className="font-serif">EcoPet</span>
+              <span className="font-serif">Practical Living Guide</span>
             </Link>
             <p className="mt-3 max-w-sm text-sm text-cream/70">
               Independent, eco-friendly pet product guides and reviews. Tested by us, chosen for the planet.
@@ -25,7 +25,7 @@ export function SiteFooter() {
           </div>
 
           <nav aria-label="Footer">
-            <h2 className="text-sm font-semibold uppercase tracking-wider text-cream/80">EcoPet</h2>
+            <h2 className="text-sm font-semibold uppercase tracking-wider text-cream/80">Practical Living Guide</h2>
             <ul className="mt-4 space-y-2 text-sm">
               {FOOTER_LINKS.map((link) => (
                 <li key={link.href}>
@@ -39,7 +39,7 @@ export function SiteFooter() {
         </div>
 
         <div className="mt-8 border-t border-cream/10 pt-6 text-center text-sm text-cream/60">
-          © {new Date().getFullYear()} EcoPet. All rights reserved.
+          © {new Date().getFullYear()} Practical Living Guide. All rights reserved.
         </div>
       </div>
     </footer>

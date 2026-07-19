@@ -1,4 +1,4 @@
--- EcoPet — initial schema
+-- Practical Living Guide — initial schema
 -- Execute this in the Supabase dashboard (SQL Editor) or via the Supabase CLI.
 
 create extension if not exists "pgcrypto";

@@ -1,4 +1,4 @@
-# Configuration de Supabase (EcoPet)
+# Configuration de Supabase
 
 Guide en français pour brancher le backend Supabase (articles + admin).
 

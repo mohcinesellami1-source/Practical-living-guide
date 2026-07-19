@@ -2,7 +2,7 @@ import type { Metadata } from 'next';
 import './globals.css';
 
 export const metadata: Metadata = {
-  title: 'EcoPet - Sustainable Pet Supplies',
+  title: 'Practical Living Guide',
   description: 'Eco-friendly pet supplies for conscious pets',
 };
 

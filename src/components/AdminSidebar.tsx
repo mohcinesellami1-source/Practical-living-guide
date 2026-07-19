@@ -24,7 +24,7 @@ export function AdminSidebar({ email, onNavigate }: Props) {
     <div className="flex h-full flex-col">
       <div className="flex items-center gap-2 px-6 py-5 text-forest">
         <Leaf className="h-6 w-6 text-sage" aria-hidden="true" />
-        <span className="font-serif text-lg font-bold">EcoPet Admin</span>
+        <span className="font-serif text-lg font-bold">Practical Living Guide Admin</span>
       </div>
 
       <nav className="flex-1 space-y-1 px-3" aria-label="Admin navigation">
