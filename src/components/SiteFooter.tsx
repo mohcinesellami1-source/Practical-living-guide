@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import { Leaf } from 'lucide-react';
+import { SupportButton } from './SupportButton';
 
 const FOOTER_LINKS = [
   { href: '/about', label: 'About' },
@@ -22,6 +23,10 @@ export function SiteFooter() {
             <p className="mt-3 max-w-sm text-sm text-cream/70">
               Independent, eco-friendly pet product guides and reviews. Tested by us, chosen for the planet.
             </p>
+            {/* Renders only when NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY is configured. */}
+            <div className="mt-5">
+              <SupportButton />
+            </div>
           </div>
 
           <nav aria-label="Footer">

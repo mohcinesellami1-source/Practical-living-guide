@@ -74,5 +74,15 @@ Monetization is **not yet wired up**. Affiliate Disclosure exists, but no ad/aff
 4. Apply to the first 2–3 merchants per category; insert links only after approval.
 5. Re-verify the live Affiliate Disclosure + Editorial Policy pages still match reality after each program goes live.
 
+### Scaffolding in place (2026-07-20)
+Code is ready so inserting keys is a one-step deploy, not a rewrite:
+- `src/lib/affiliate.ts` — `amazonUrl()`, `withAmazonTag()`, `shareasaleUrl()` (read `NEXT_PUBLIC_AMAZON_ASSOCIATE_TAG` / `NEXT_PUBLIC_SHAREASALE_AFFILIATE_ID`).
+- `src/lib/stripe.ts` — server-only (`import 'server-only'`) Stripe helper; `createDonationSession()` for a one-time "support us" checkout. Throws clearly if `STRIPE_SECRET_KEY` unset.
+- `src/app/api/stripe/checkout/route.ts` — `POST` handler (Node runtime) → returns Stripe Checkout URL.
+- `src/components/SupportButton.tsx` — client button; renders **nothing** until `NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY` is set (so the live site is unchanged until keys are added + redeployed). Mounted in `SiteFooter`.
+- `.env.example` — committed template listing all Supabase + monetization vars (no secrets).
+- `stripe` added to dependencies. Build passes (16 routes incl. `/api/stripe/checkout`).
+**To activate:** set the 4 monetization env vars in Vercel Production + `.env.local`, commit any article link updates using the affiliate helpers, then `vercel deploy --prod`.
+
 ## Session Summary (2026-07-20)
 Completed the entire "Next Session Priorities" backlog from the prior session: audit (clean), static-page content, hero update, draft review/publish (8 total, remapped to Pet Care), build, and Vercel deploy. The production 500 was a missing-env-vars issue (not Vercel Authentication) — resolved by setting the 4 Supabase env vars in Vercel. Site is live and public: https://eco-pet-site-r7xqsk6w4-blooging.vercel.app
