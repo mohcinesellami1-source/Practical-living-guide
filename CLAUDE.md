@@ -53,5 +53,26 @@
 - Optional polish: author bylines, related-articles section, sitemap/robots, RSS.
 - Monitor Vercel deployment health after the first real traffic.
 
+## Growth & Monetization Roadmap
+Monetization is **not yet wired up**. Affiliate Disclosure exists, but no ad/affiliate code is live. Plan below; items marked « manual » must be done by the user (account creation/approval can't be automated).
+
+### Accounts to create manually (user action)
+- **Amazon Associates** — register at affiliate-program.amazon.com. Requires an active site with real content + some traffic; approval typically takes a few days. Apply under the live domain (eco-pet-site-r7xqsk6w4-blooging.vercel.app or the custom domain once set).
+- **ShareASale** — register as an affiliate at shareasale.com, then apply to individual merchants (each merchant approves separately). Pick merchants matching the 6 categories (pet, cleaning, garden, organization, DIY, product guides).
+- **Stripe** — create a Stripe account and complete verification (business details + payout bank account) before any live charges.
+
+### Tags / keys to insert once obtained
+- **Amazon Associates Tracking ID** (e.g. `practicallvg-20`) → store as `NEXT_PUBLIC_AMAZON_ASSOCIATE_TAG`; a small affiliate-link helper should append it to every Amazon URL so product links stay tagged and compliant.
+- **ShareASale Affiliate ID** (your numeric affiliate #) + per-merchant affiliate link URLs → insert merchant links into the relevant articles.
+- **Stripe keys** → `NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY` (browser-safe, `pk_live_…`) and `STRIPE_SECRET_KEY` (`sk_live_…`, **server-only, never NEXT_PUBLIC_**). Add a webhook signing secret only if using webhooks.
+- All of the above go into Vercel **Production** env vars **and** `.env.local` (gitignored) — never commit secrets.
+
+### Next actions
+1. Add real **AdSense / affiliate ad slots** into article + homepage layouts (see Next Session).
+2. Centralize affiliate tagging behind one helper + env var so links stay consistent and the Affiliate Disclosure page remains accurate as programs are added.
+3. Decide Stripe use case (donations « support us », one-time product sales, or subscriptions) and add a server-side checkout endpoint — keep the secret key server-only.
+4. Apply to the first 2–3 merchants per category; insert links only after approval.
+5. Re-verify the live Affiliate Disclosure + Editorial Policy pages still match reality after each program goes live.
+
 ## Session Summary (2026-07-20)
 Completed the entire "Next Session Priorities" backlog from the prior session: audit (clean), static-page content, hero update, draft review/publish (8 total, remapped to Pet Care), build, and Vercel deploy. The production 500 was a missing-env-vars issue (not Vercel Authentication) — resolved by setting the 4 Supabase env vars in Vercel. Site is live and public: https://eco-pet-site-r7xqsk6w4-blooging.vercel.app
