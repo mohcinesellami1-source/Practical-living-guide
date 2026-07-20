@@ -85,4 +85,32 @@ Code is ready so inserting keys is a one-step deploy, not a rewrite:
 **To activate:** set the 4 monetization env vars in Vercel Production + `.env.local`, commit any article link updates using the affiliate helpers, then `vercel deploy --prod`.
 
 ## Session Summary (2026-07-20)
-Completed the entire "Next Session Priorities" backlog from the prior session: audit (clean), static-page content, hero update, draft review/publish (8 total, remapped to Pet Care), build, and Vercel deploy. The production 500 was a missing-env-vars issue (not Vercel Authentication) — resolved by setting the 4 Supabase env vars in Vercel. Site is live and public: https://eco-pet-site-r7xqsk6w4-blooging.vercel.app
+Two sessions' work wrapped up and pushed this day.
+
+### Carried over from prior session (verified/deployed this run)
+- Sitewide audit: no dead links or broken buttons; all routes resolve; `/admin/*` 307-redirects unauthenticated users.
+- Static pages filled (About, Privacy, Editorial Policy, Affiliate Disclosure, Contact).
+- Homepage hero reflects all 6 categories.
+- All 8 draft articles reviewed + published (subcats remapped → "Pet Care").
+- Built + deployed to Vercel. Production 500 (digest 1298635809) was a **missing-env-vars** issue, fixed by setting the 4 Supabase vars in Vercel Production.
+- Live & public: https://eco-pet-site-r7xqsk6w4-blooging.vercel.app
+
+### This session
+- Added **Growth & Monetization Roadmap** to CLAUDE.md (accounts to create manually, keys to insert, next actions).
+- Built **monetization scaffolding** (committed `49def1a`): `src/lib/affiliate.ts` (amazon/shareasale tag helpers), `src/lib/stripe.ts` (server-only), `src/app/api/stripe/checkout/route.ts`, `src/components/SupportButton.tsx` (renders nothing until key set), `SiteFooter` mount, `.env.example` updated, `stripe` dep. Build passes (16 routes).
+- **Chatbot RAG plan + cost estimate** delivered (NOT coded): cheap 2026 Gemini approach — Option A (stuff all content in prompt, free/near-free at 8 articles) now, Option B (pgvector + Gemini embeddings) once corpus >~30-50. Est. $0–5/mo at 500 queries/mo.
+- **Planned 20 articles** listed (below) to reach 28 total across all 6 categories.
+- Note: I cannot create the Amazon / ShareASale / Stripe accounts on the user's behalf — they are identity/legal/bank-bound and must be done manually.
+
+## Next Session
+- **Activate monetization** (user must first create the 3 accounts manually): set `NEXT_PUBLIC_AMAZON_ASSOCIATE_TAG`, `NEXT_PUBLIC_SHAREASALE_AFFILIATE_ID`, `NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY` + `STRIPE_SECRET_KEY` in Vercel Production + `.env.local`, then insert affiliate links via the helpers in articles and `vercel deploy --prod`.
+- **Build the visitor chatbot (RAG on Supabase via Gemini):** start with Option A (inject all article content into the system prompt — cheapest at current size). Add pgvector + `text-embedding-004` + Gemini 2.5 Flash (Option B) only past ~30-50 articles. Keep `GEMINI_API_KEY` server-only; ground responses to site content only.
+- **Write the ~20 planned articles** (to reach 28 total). Specific angles, free Unsplash covers, blue-ocean strategy:
+  - *Pet Care*: home-compostable cat litter, reusable compostable bag dispensers, non-toxic dog cooling mats, safe secondhand small-pet habitats, pet-safe air-purifying plants.
+  - *Home & Cleaning*: plastic-free dishwasher tablets, refillable cleaner cost/litre, compostable sponges/brushes, laundry sheets vs liquid.
+  - *Organization & Storage*: plastic-free food storage (beeswax/silicone/glass), zero-waste junk-drawer, under-sink refillable containers.
+  - *Garden & Outdoor*: peat-free container compost, apartment rain barrel, low-water native pollinator plants.
+  - *DIY & Simple Repairs*: re-wax food wraps, fix leaking faucet (washer), repair leashes/collars.
+  - *Product Guides*: refillable cleaning starter kit, best small-space composters.
+- **Optional polish:** author bylines, related-articles section, sitemap/robots, RSS.
+- **Monitor** Vercel deployment health after the first real traffic.
