@@ -25,6 +25,27 @@ const sb = createClient(url, key, { auth: { persistSession: false } });
 
 const mode = process.argv[2] ?? 'list';
 
+if (mode === 'fetch-all') {
+  const { data: all, error: fe } = await sb
+    .from('articles')
+    .select('id, slug, title, category, status, excerpt, content')
+    .order('updated_at', { ascending: false });
+  if (fe) {
+    console.error('Fetch failed:', fe.message);
+    process.exit(1);
+  }
+  for (const a of all) {
+    console.log('---');
+    console.log(`SLUG: ${a.slug}`);
+    console.log(`TITLE: ${a.title}`);
+    console.log(`CATEGORY: ${a.category}`);
+    console.log(`EXCERPT: ${a.excerpt}`);
+    console.log(`CONTENT:\n${a.content}`);
+    console.log('---\n');
+  }
+  process.exit(0);
+}
+
 if (mode === 'remap') {
   const TARGET = 'Pet Care';
   const { data: all, error: fe } = await sb
